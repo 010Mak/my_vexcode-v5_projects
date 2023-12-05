@@ -2,20 +2,20 @@
 
 using namespace vex;
 
-// Ensure these match your actual robot configuration names
+// Adjust these names to match your robot configuration
 extern drivetrain Drivetrain;
-extern sonar RangeFinderA;
+extern sonar RangeFinder;  // Assuming this is the name of your range finder
 
 int main() {
     // Variables
     double dist;
     double speed;
-    const double minDist = 1;   // Minimum distance for the speed to reach 0%
-    const double startDist = 50; // Starting distance for full speed (100%)
+    const double minDist = 25.4;  // Minimum distance (1 inch) in millimeters
+    const double startDist = 1270; // Starting distance (50 inches) in millimeters
 
     while(true) {
-        // Read distance from Range Finder A
-        dist = RangeFinderA.distance(inches);
+        // Read distance from Range Finder in millimeters
+        dist = RangeFinder.distance(mm);
 
         // Calculate speed based on distance
         if (dist > startDist) {
@@ -28,6 +28,7 @@ int main() {
 
         // Set drivetrain speed
         Drivetrain.setDriveVelocity(speed, percent);
+        Drivetrain.drive(forward);
 
         // Short delay to prevent CPU overload
         this_thread::sleep_for(10);
