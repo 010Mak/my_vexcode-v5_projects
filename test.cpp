@@ -2,14 +2,11 @@
 
 using namespace vex;
 
-// Assuming you have already configured your robot's drivetrain and range finder in the VEX Robot Configuration.
-extern drivetrain myDrivetrain;
+// Ensure these match your actual robot configuration names
+extern drivetrain Drivetrain;
 extern sonar RangeFinderA;
 
 int main() {
-    // Initialize VEX components
-    vexcodeInit();
-
     // Variables
     double dist;
     double speed;
@@ -26,10 +23,12 @@ int main() {
         // Limit the speed to maxSpeed
         if(speed > maxSpeed) {
             speed = maxSpeed;
+        } else if (speed < 0) {
+            speed = 0; // Ensure speed doesn't go negative
         }
 
-        // Set drivetrain speed
-        myDrivetrain.setVelocity(speed, percent);
+        // Set drivetrain speed - adjust this part based on your robot configuration
+        Drivetrain.setDriveVelocity(speed, percent);
 
         // Other drivetrain controls here (if necessary)
 
