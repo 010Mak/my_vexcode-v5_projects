@@ -1,14 +1,21 @@
-# Import the VEX library
 import vex
 
-# Region for setting up VEX components
+# Initialize VEX components
 brain = vex.Brain()
-# Replace 'PORT_NUMBER' with the actual port number where your range finder is connected
-range_finder = vex.RangeFinder(brain.three_wire_port.a)
-# Replace 'LEFT_MOTOR_PORT' and 'RIGHT_MOTOR_PORT' with the actual motor ports
-left_motor = vex.Motor(vex.Ports.PORT1, vex.GearSetting.RATIO_18_1, False)
-right_motor = vex.Motor(vex.Ports.PORT2, vex.GearSetting.RATIO_18_1, True)
-drivetrain = vex.Drivetrain(left_motor, right_motor, 319.19, 292.1, vex.DistanceUnits.MM)
+
+# Configure the range finder on ports A and B
+range_finder = vex.RangeFinder(brain.three_wire_port.a, brain.three_wire_port.b)
+
+# Configure the motors. Adjust the settings as needed for your robot.
+left_motor_a = vex.Motor(vex.Ports.PORT1, vex.GearSetting.RATIO_18_1, False)
+left_motor_b = vex.Motor(vex.Ports.PORT2, vex.GearSetting.RATIO_18_1, False)
+right_motor_a = vex.Motor(vex.Ports.PORT3, vex.GearSetting.RATIO_18_1, True)
+right_motor_b = vex.Motor(vex.Ports.PORT4, vex.GearSetting.RATIO_18_1, True)
+
+# Create a drivetrain using the four motors
+drivetrain = vex.Drivetrain(left_motor_a, right_motor_a, 319.19, 292.1, vex.DistanceUnits.MM)
+drivetrain.add_motor(left_motor_b)
+drivetrain.add_motor(right_motor_b)
 
 # Main loop
 while True:
