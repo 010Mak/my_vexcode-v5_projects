@@ -10,27 +10,24 @@ int main() {
     // Variables
     double dist;
     double speed;
-    const double maxSpeed = 100; // Max speed of the drivetrain
-    const double maxDist = 50;   // Max distance for full speed in inches
+    const double minDist = 1;   // Minimum distance for the speed to reach 0%
+    const double startDist = 50; // Starting distance for full speed (100%)
 
     while(true) {
         // Read distance from Range Finder A
         dist = RangeFinderA.distance(inches);
 
         // Calculate speed based on distance
-        speed = maxSpeed * (dist / maxDist);
-
-        // Limit the speed to maxSpeed
-        if(speed > maxSpeed) {
-            speed = maxSpeed;
-        } else if (speed < 0) {
-            speed = 0; // Ensure speed doesn't go negative
+        if (dist > startDist) {
+            speed = 100; // Maintain full speed
+        } else if (dist > minDist) {
+            speed = 100 * ((dist - minDist) / (startDist - minDist));
+        } else {
+            speed = 0; // Stop if too close
         }
 
-        // Set drivetrain speed - adjust this part based on your robot configuration
+        // Set drivetrain speed
         Drivetrain.setDriveVelocity(speed, percent);
-
-        // Other drivetrain controls here (if necessary)
 
         // Short delay to prevent CPU overload
         this_thread::sleep_for(10);
